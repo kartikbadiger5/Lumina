@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .settings-header {
+            background: linear-gradient(90deg, #000dff3b 0%, #6b72ff00 100%);
+            padding: 20px;
+            border-bottom: 1px solid #333;
+            backdrop-filter: blur(10px);
+        }
+
+        .settings-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0;
+            color: #00AAFF;
+        }
+
+        .settings-subtitle {
+            font-size: 14px;
+            color: #aaa;
+            margin: 5px 0 0 0;
+        }
+
+        .settings-container {
+            padding: 20px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        .setting-category {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 1px solid #333;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.1);
+        }
+
+        .setting-category:hover {
+            border-color: #00AAFF;
+            box-shadow: 0 4px 25px rgba(0, 170, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .setting-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.3s ease;
+        }
+
+        .setting-header:hover {
+            background: rgba(0, 170, 255, 0.1);
+        }
+
+        .setting-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .setting-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00AAFF 0%, #0080cc 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        .setting-text h6 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .setting-text p {
+            margin: 2px 0 0 0;
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        .chevron {
+            transition: transform 0.3s ease;
+            color: #00AAFF;
+        }
+
+        .chevron.rotated {
+            transform: rotate(90deg);
+        }
+
+        .setting-content {
+            display: none;
+            padding: 0 20px 20px 20px;
+            border-top: 1px solid #333;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .setting-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 500px;
+            }
+        }
+
+        .setting-option {
+            padding: 15px 0;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .setting-option:last-child {
+            border-bottom: none;
+        }
+
+        .option-info h6 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .option-info p {
+            margin: 2px 0 0 0;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .btn-jarvis {
+            background: linear-gradient(135deg, #00AAFF 0%, #0080cc 100%);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 170, 255, 0.3);
+        }
+
+        .btn-jarvis:hover {
+            background: linear-gradient(135deg, #0080cc 0%, #00AAFF 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.5);
+            color: white;
+        }
+
+        .btn-danger-jarvis {
+            background: linear-gradient(135deg, #ff4757 0%, #c44569 100%);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(255, 71, 87, 0.3);
+        }
+
+        .btn-danger-jarvis:hover {
+            background: linear-gradient(135deg, #c44569 0%, #ff4757 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.5);
+            color: white;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #00AAFF;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .loading-text {
+            color: #00AAFF;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .app-count {
+            background: rgba(0, 170, 255, 0.2);
+            color: #00AAFF;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Scrollbar Styling */
+        .settings-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .settings-container::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        .settings-container::-webkit-scrollbar-thumb {
+            background: #00AAFF;
+            border-radius: 3px;
+        }
+
+        .settings-container::-webkit-scrollbar-thumb:hover {
+            background: #0080cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-header">
+        <h1 class="settings-title">Jarvis Settings</h1>
+        <p class="settings-subtitle">Configure your AI assistant preferences</p>
+    </div>
+
+    <div class="settings-container">
+        <!-- Assistant Configuration -->
+        <div class="setting-category">
+            <div class="setting-header" data-bs-toggle="collapse" data-bs-target="#assistantSettings">
+                <div class="setting-info">
+                    <div class="setting-icon">
+                        <i class="bi bi-robot"></i>
+                    </div>
+                    <div class="setting-text">
+                        <h6>Assistant</h6>
+                        <p>Voice commands, wake word, and AI behavior</p>
+                    </div>
+                </div>
+                <i class="bi bi-chevron-right chevron"></i>
+            </div>
+            <div class="setting-content collapse" id="assistantSettings">
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Wake Word</h6>
+                        <p>Set the specific word Jarvis listens for to activate (e.g., "lumina", "jarvis", "computer")</p>
+                    </div>
+                    <div class="input-group" style="max-width: 300px;">
+                        <input type="text" class="form-control" id="wake-word-input" 
+                               placeholder="Enter wake word" value="lumina" 
+                               style="background: #2a2a2a; border: 1px solid #444; color: #fff;">
+                        <button class="btn btn-outline-primary" type="button" id="save-wake-word">
+                            <i class="bi bi-check-lg"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Wake Word Detection</h6>
+                        <p>Enable or disable wake word detection</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="wake-word-enabled" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Voice Feedback</h6>
+                        <p>Assistant speaks responses aloud</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="voice-feedback" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Continuous Listening</h6>
+                        <p>Keep microphone active for commands</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="continuous-listening">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Application Scanner -->
+        <div class="setting-category">
+            <div class="setting-header" data-bs-toggle="collapse" data-bs-target="#appSettings">
+                <div class="setting-info">
+                    <div class="setting-icon">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <div class="setting-text">
+                        <h6>Application Scanner</h6>
+                        <p>Discover and manage voice-accessible apps</p>
+                    </div>
+                </div>
+                <i class="bi bi-chevron-right chevron"></i>
+            </div>
+            <div class="setting-content collapse" id="appSettings">
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Scan Desktop Applications</h6>
+                        <p>Discover installed applications for voice control</p>
+                    </div>
+                    <button class="btn-jarvis" id="scanAppsBtn">
+                        <i class="bi bi-search me-1"></i>Scan Now
+                    </button>
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Reset Application Database</h6>
+                        <p>Clear and rescan all applications</p>
+                    </div>
+                    <button class="btn-danger-jarvis" id="resetScanBtn">
+                        <i class="bi bi-arrow-clockwise me-1"></i>Reset & Scan
+                    </button>
+                </div>
+                <div class="setting-option" id="appCountOption" style="display: none;">
+                    <div class="option-info">
+                        <h6>Applications Found</h6>
+                        <p>Total number of voice-accessible apps</p>
+                    </div>
+                    <span class="app-count" id="appCount">0</span>
+                </div>
+                <div id="scanStatus" class="loading-text" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Contact Management -->
+        <div class="setting-category">
+            <div class="setting-header" data-bs-toggle="collapse" data-bs-target="#contactSettings">
+                <div class="setting-info">
+                    <div class="setting-icon">
+                        <i class="bi bi-person-lines-fill"></i>
+                    </div>
+                    <div class="setting-text">
+                        <h6>Contact Management</h6>
+                        <p>Voice contacts and communication settings</p>
+                    </div>
+                </div>
+                <i class="bi bi-chevron-right chevron"></i>
+            </div>
+            <div class="setting-content collapse" id="contactSettings">
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Auto-format Phone Numbers</h6>
+                        <p>Automatically add +91 prefix for Indian numbers</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="format-phone" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>WhatsApp Integration</h6>
+                        <p>Enable WhatsApp messaging via voice commands</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="whatsapp-integration" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Clear All Contacts</h6>
+                        <p>Remove all saved voice contacts</p>
+                    </div>
+                    <button class="btn-danger-jarvis" id="clearContactsBtn">
+                        <i class="bi bi-trash me-1"></i>Clear Contacts
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Media Controls -->
+        <div class="setting-category">
+            <div class="setting-header" data-bs-toggle="collapse" data-bs-target="#mediaSettings">
+                <div class="setting-info">
+                    <div class="setting-icon">
+                        <i class="bi bi-music-note-beamed"></i>
+                    </div>
+                    <div class="setting-text">
+                        <h6>Media Controls</h6>
+                        <p>Music, volume, and playback management</p>
+                    </div>
+                </div>
+                <i class="bi bi-chevron-right chevron"></i>
+            </div>
+            <div class="setting-content collapse" id="mediaSettings">
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>System Volume Control</h6>
+                        <p>Allow voice control of system volume</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="system-volume" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Media Key Integration</h6>
+                        <p>Use hardware media keys for control</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="keyboard-shortcuts" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>YouTube Shortcuts</h6>
+                        <p>Additional keyboard shortcuts for YouTube</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="media-notifications" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Display & Interface -->
+        <div class="setting-category">
+            <div class="setting-header" data-bs-toggle="collapse" data-bs-target="#displaySettings">
+                <div class="setting-info">
+                    <div class="setting-icon">
+                        <i class="bi bi-display"></i>
+                    </div>
+                    <div class="setting-text">
+                        <h6>Display & Interface</h6>
+                        <p>Window size, position, and visual settings</p>
+                    </div>
+                </div>
+                <i class="bi bi-chevron-right chevron"></i>
+            </div>
+            <div class="setting-content collapse" id="displaySettings">
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Always on Top</h6>
+                        <p>Keep Jarvis window above other applications</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="always-on-top">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Color Theme</h6>
+                        <p>Customize the assistant's visual appearance</p>
+                    </div>
+                    <input type="color" value="#00aaff" id="themeColorPicker" style="border: none; border-radius: 6px; width: 50px; height: 30px;">
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Minimize to System Tray</h6>
+                        <p>Hide in system tray instead of taskbar</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="minimize-to-tray">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Integration -->
+        <div class="setting-category">
+            <div class="setting-header" data-bs-toggle="collapse" data-bs-target="#systemSettings">
+                <div class="setting-info">
+                    <div class="setting-icon">
+                        <i class="bi bi-gear-wide-connected"></i>
+                    </div>
+                    <div class="setting-text">
+                        <h6>System Integration</h6>
+                        <p>Startup, permissions, and system features</p>
+                    </div>
+                </div>
+                <i class="bi bi-chevron-right chevron"></i>
+            </div>
+            <div class="setting-content collapse" id="systemSettings">
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Start with Windows</h6>
+                        <p>Launch Jarvis automatically on system startup</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="start-with-windows">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Microphone Permissions</h6>
+                        <p>Check and configure microphone access</p>
+                    </div>
+                    <button class="btn-jarvis" id="checkMicBtn" onclick="checkMicrophoneAccess()">
+                        <i class="bi bi-mic me-1"></i>Check Access
+                    </button>
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Reset All Settings</h6>
+                        <p>Restore all settings to default values</p>
+                    </div>
+                    <button class="btn-danger-jarvis" id="resetSettingsBtn" onclick="resetAllSettings()">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i>Reset
+                    </button>
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Manual Save Settings</h6>
+                        <p>Save current settings (for testing)</p>
+                    </div>
+                    <button class="btn-jarvis" onclick="saveAllSettings()">
+                        <i class="bi bi-check me-1"></i>Save Now
+                    </button>
+                </div>
+                <div class="setting-option">
+                    <div class="option-info">
+                        <h6>Reload Settings</h6>
+                        <p>Reload settings from file (for testing)</p>
+                    </div>
+                    <button class="btn-jarvis" onclick="loadSettings()">
+                        <i class="bi bi-arrow-clockwise me-1"></i>Reload
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- EEL JS -->
+    <script src="/eel.js"></script>
+    
+    <script>
+        // Enhanced collapse handling with chevron animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const collapseElements = document.querySelectorAll('[data-bs-toggle="collapse"]');
+            
+            collapseElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    const chevron = this.querySelector('.chevron');
+                    const target = document.querySelector(this.getAttribute('data-bs-target'));
+                    
+                    // Toggle chevron rotation
+                    setTimeout(() => {
+                        if (target.classList.contains('show')) {
+                            chevron.classList.add('rotated');
+                        } else {
+                            chevron.classList.remove('rotated');
+                        }
+                    }, 10);
+                });
+            });
+
+            // Application Scanner functionality
+            document.getElementById('scanAppsBtn').addEventListener('click', function() {
+                const button = this;
+                const status = document.getElementById('scanStatus');
+                const countOption = document.getElementById('appCountOption');
+                const countElement = document.getElementById('appCount');
+                
+                button.disabled = true;
+                button.innerHTML = '<i class="bi bi-arrow-repeat spin me-1"></i>Scanning...';
+                status.style.display = 'block';
+                status.textContent = 'Scanning desktop applications...';
+                
+                // Call the eel function to scan apps
+                eel.scan_desktop_apps()(function(response) {
+                    button.disabled = false;
+                    button.innerHTML = '<i class="bi bi-search me-1"></i>Scan Now';
+                    
+                    if (response && response.success) {
+                        status.textContent = `Found ${response.count} applications`;
+                        countElement.textContent = response.count;
+                        countOption.style.display = 'flex';
+                        
+                        setTimeout(() => {
+                            status.style.display = 'none';
+                        }, 3000);
+                    } else {
+                        status.textContent = 'Error occurred during scanning';
+                        setTimeout(() => {
+                            status.style.display = 'none';
+                        }, 3000);
+                    }
+                });
+            });
+
+            // Reset Scanner functionality
+            document.getElementById('resetScanBtn').addEventListener('click', function() {
+                const button = this;
+                const status = document.getElementById('scanStatus');
+                
+                if (confirm('This will clear all scanned applications and rescan. Continue?')) {
+                    button.disabled = true;
+                    button.innerHTML = '<i class="bi bi-arrow-repeat spin me-1"></i>Resetting...';
+                    status.style.display = 'block';
+                    status.textContent = 'Clearing database and rescanning...';
+                    
+                    // Call the eel function to reset and scan
+                    eel.reset_and_scan_apps()(function(response) {
+                        button.disabled = false;
+                        button.innerHTML = '<i class="bi bi-arrow-clockwise me-1"></i>Reset & Scan';
+                        
+                        if (response && response.success) {
+                            status.textContent = `Reset complete. Found ${response.count} applications`;
+                            document.getElementById('appCount').textContent = response.count;
+                            document.getElementById('appCountOption').style.display = 'flex';
+                            
+                            setTimeout(() => {
+                                status.style.display = 'none';
+                            }, 3000);
+                        } else {
+                            status.textContent = 'Error occurred during reset';
+                            setTimeout(() => {
+                                status.style.display = 'none';
+                            }, 3000);
+                        }
+                    });
+                }
+            });
+
+            // Clear Contacts functionality
+            document.getElementById('clearContactsBtn').addEventListener('click', function() {
+                if (confirm('This will delete all saved contacts. Are you sure?')) {
+                    eel.clear_all_contacts()(function(response) {
+                        if (response === 'ok') {
+                            alert('All contacts have been cleared successfully');
+                        } else {
+                            alert('Error occurred while clearing contacts');
+                        }
+                    });
+                }
+            });
+        });
+
+        // CSS animation for spinning icon
+        const style = document.createElement('style');
+        style.textContent = `
+            .spin {
+                animation: spin 1s linear infinite;
+            }
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    
+    <!-- EEL JavaScript -->
+    <script type="text/javascript" src="/eel.js"></script>
+    <!-- Settings-specific Script -->
+    <script src="settings.js"></script>
+</body>
+</html>
+</body>
+</html>

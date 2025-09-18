@@ -1,0 +1,44 @@
+{
+    "assistant": {
+        "wake_word_enabled": true,
+        "voice_feedback_enabled": true,
+        "continuous_listening": false,
+        "wake_word": "brother"
+    },
+    "contacts": {
+        "auto_format_phone": true,
+        "whatsapp_integration": true,
+        "default_country_code": "+91"
+    },
+    "media": {
+        "system_volume_control": true,
+        "media_key_integration": true,
+        "youtube_shortcuts": true
+    },
+    "display": {
+        "always_on_top": true,
+        "theme_color": "#4c00ff",
+        "minimize_to_tray": true,
+        "window_position": [
+            1500,
+            370
+        ],
+        "window_size": [
+            450,
+            800
+        ],
+        "agent_mode": false
+    },
+    "system": {
+        "start_with_windows": false,
+        "microphone_permissions": true,
+        "debug_mode": false
+    },
+    "applications": {
+        "auto_scan_on_startup": false,
+        "scan_paths": [
+            "C:\\Program Files",
+            "C:\\Program Files (x86)"
+        ]
+    }
+}
