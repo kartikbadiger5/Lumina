@@ -5,3 +5,4 @@ jarvis.db
 /engine/cookies.json
 .venv/
 /venv
+__pycache__/

@@ -1,13 +1,44 @@
-eel
-pyttsx3
-SpeechRecognition
-pipes
+# ==================== CORE FRAMEWORK ====================
+# Web UI Framework
+Eel==0.16.0
+
+# ==================== SPEECH & AUDIO ====================
+# Text-to-Speech Engine
+pyttsx3==2.90
+
+# Speech Recognition
+SpeechRecognition==3.10.4
+
+# Audio Input/Output (Microphone & Speaker access)
+PyAudio==0.2.14
+
+# Audio Playback for assistant sounds
 playsound==1.2.2
-pyaudio
-pyautogui
-pywhatkit
-pvporcupine
-hugchat
-opencv-python
-numpy
-Pillow
+
+# Wake Word Detection (Picovoice)
+pvporcupine==3.0.2
+
+# ==================== SYSTEM INTEGRATION ====================
+# System Tray Integration
+pystray==0.19.5
+
+# Image Processing (for tray icons, UI)
+Pillow==10.4.0
+
+# Desktop Automation (clicking, typing, screenshots)
+pyautogui==0.9.54
+
+# ==================== WEB & COMMUNICATION ====================
+# HTTP Requests for web APIs
+requests==2.31.0
+
+# WhatsApp & YouTube automation
+pywhatkit==5.4
+
+# AI Chat Integration
+hugchat==0.4.9
+
+# ==================== COMPUTER VISION (Optional) ====================
+# Face Recognition (currently disabled in code)
+opencv-python==4.10.0.84
+numpy==1.26.4
